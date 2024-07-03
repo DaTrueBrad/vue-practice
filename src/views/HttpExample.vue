@@ -1,10 +1,17 @@
 <script setup>
 import axios from "axios";
-import { onMounted, ref } from "vue";
-
+import { onMounted, ref, computed } from "vue";
+import { useVirtualList } from "@vueuse/core";
 let loading = ref(true);
-
 let pokemon = ref([]);
+let search = ref("")
+const filteredList = computed(() =>
+  pokemon.value.filter((p) => p.name.toLowerCase().includes(search.value.toLowerCase()))
+);
+const { list, containerProps, wrapperProps } = useVirtualList(filteredList, {
+  itemHeight: 22,
+  itemWidth: 100
+});
 
 const getData = () => {
   axios
@@ -22,10 +29,21 @@ onMounted(getData);
 </script>
 <template>
   <h2>Here are some results of the HTTP Request</h2>
+  <h3>I'm using a virtualized list for performance</h3>
   <p v-if="loading">Loading...</p>
   <div v-else>
-    <h5 v-for="p of pokemon" :key="p.url">{{ p.name }}</h5>
+    <input v-model="search" placeholder="Search"/>
+
+    <div v-bind="containerProps">
+      <div v-bind="wrapperProps">
+        <h5 v-for="p of list" :key="p.data.url">{{ p.data.name }}</h5>
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+h5 {
+  height: 22px;
+}
+</style>
