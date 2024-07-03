@@ -1,14 +1,14 @@
 <script setup>
   import { ref } from 'vue';
-  import {store} from '../state/store'
+  import {useTaskStore} from '../state/store'
+  const tasks = useTaskStore()
   let newTask = ref("")
   let inputField = ref()
   let globalId = 1
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let obj = {name: newTask.value, id: globalId, complete: false}
-    store.tasks = [obj, ...store.tasks]
+    tasks.addTask(newTask.value)
     newTask.value = ""
     inputField.value.focus()
     globalId++

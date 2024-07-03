@@ -1,18 +1,13 @@
 <script setup>
-import {store} from '../state/store'
-
+import {useTaskStore} from '../state/store'
+const tasks = useTaskStore()
 const props = defineProps({
   task: Object,
   index: Number,
 })
 
-const handleComplete = () => {
-  console.log('click')
-  let newTasks = [...store.tasks]
-  newTasks[props.index] = {...newTasks[props.index], complete: !newTasks[props.index].complete}
-  store.tasks = [...newTasks]
-}
-console.log(store.tasks)
+const handleComplete = () => tasks.completeTask(props.index)
+
 </script>
 
 <template>

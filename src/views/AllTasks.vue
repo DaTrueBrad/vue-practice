@@ -1,10 +1,9 @@
 <script setup>
 import TaskItem from "@/components/TaskItem.vue";
-import {store} from '../state/store'
+import {useTaskStore} from '../state/store'
+const tasks = useTaskStore()
 
-const toggle = (index) => {
-  store.tasks[index] = {...store.tasks[index], complete: !store.tasks[index].complete}
-}
+const toggle = (index) => tasks.completeTasks(index)
 
 </script>
 
@@ -12,7 +11,7 @@ const toggle = (index) => {
   <div>
     <h2>All Tasks</h2>
     <ul>
-      <task-item v-for="(task, index) in store.tasks" :task="task" :key="task.id" :index="index" :toggle="toggle"/>
+      <task-item v-for="(task, index) in tasks.tasks" :task="task" :key="task.id" :index="index" :toggle="toggle"/>
     </ul>
   </div>
 </template>
