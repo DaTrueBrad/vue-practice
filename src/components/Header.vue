@@ -12,6 +12,7 @@ import { RouterLink } from 'vue-router';
     <nav>
       <RouterLink to="/" active-class="active">Create Task</RouterLink>
       <RouterLink to="/tasks" active-class="active">All Tasks</RouterLink>
+      <RouterLink to="/Axios" active-class="active">HTTP Example</RouterLink>
     </nav>
   </div>
 </template>
